@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TECH-LG-09 | New Leader Training Module</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f7fa;
+    --bg-tertiary: #eef1f6;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555e6e;
+    --text-muted: #8a95a3;
+    --border: rgba(0,0,0,0.10);
+    --border-strong: rgba(0,0,0,0.18);
+    --blue: #185FA5;
+    --blue-light: #E6F1FB;
+    --blue-dark: #0C447C;
+    --teal: #0F6E56;
+    --teal-light: #E1F5EE;
+    --teal-dark: #085041;
+    --amber-light: #FAEEDA;
+    --amber-dark: #633806;
+    --green-light: #EAF3DE;
+    --green-dark: #27500A;
+    --red-light: #FCEBEB;
+    --red-dark: #A32D2D;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-primary: #1c1e22;
+      --bg-secondary: #25282e;
+      --bg-tertiary: #2e3138;
+      --text-primary: #f0f2f5;
+      --text-secondary: #a0aab8;
+      --text-muted: #636e7d;
+      --border: rgba(255,255,255,0.09);
+      --border-strong: rgba(255,255,255,0.16);
+      --blue-light: #0d2e50;
+      --blue-dark: #85B7EB;
+      --teal-light: #083d2e;
+      --teal-dark: #5DCAA5;
+      --amber-light: #3d2800;
+      --amber-dark: #FAC775;
+      --green-light: #1a2e08;
+      --green-dark: #C0DD97;
+      --red-light: #2e0d0d;
+      --red-dark: #F09595;
+    }
+  }
+  body { font-family: -apple-system, 'Segoe UI', sans-serif; background: var(--bg-secondary); color: var(--text-primary); min-height: 100vh; }
+  .app { max-width: 820px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  /* Header */
+  .header { margin-bottom: 2rem; }
+  .header-label { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); margin-bottom: 6px; }
+  .header-title { font-size: 26px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+  .header-sub { font-size: 14px; color: var(--text-secondary); }
+  /* Progress */
+  .progress-wrap { margin-bottom: 1.5rem; }
+  .progress-meta { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; }
+  .progress-track { background: var(--bg-tertiary); border-radius: 99px; height: 5px; }
+  .progress-fill { height: 5px; border-radius: 99px; background: var(--blue); transition: width 0.4s ease; }
+  /* Nav */
+  .nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 1.75rem; }
+  .nav-btn { font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 99px; border: 1px solid var(--border-strong); background: var(--bg-primary); color: var(--text-secondary); cursor: pointer; transition: all 0.15s; }
+  .nav-btn:hover { background: var(--bg-tertiary); color: var(--text-primary); }
+  .nav-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .nav-btn.done { background: var(--green-light); color: var(--green-dark); border-color: transparent; }
+  /* Cards */
+  .card { background: var(--bg-primary); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem; }
+  .card-blue { border-left: 3px solid var(--blue); border-radius: 0 var(--radius) var(--radius) 0; }
+  .card-teal { border-left: 3px solid var(--teal); border-radius: 0 var(--radius) var(--radius) 0; }
+  .card-warn { border-color: #E24B4A; }
+  /* Badges */
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 99px; letter-spacing: 0.03em; }
+  .badge-blue { background: var(--blue-light); color: var(--blue-dark); }
+  .badge-teal { background: var(--teal-light); color: var(--teal-dark); }
+  .badge-amber { background: var(--amber-light); color: var(--amber-dark); }
+  .badge-green { background: var(--green-light); color: var(--green-dark); }
+  /* Typography */
+  h2 { font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
+  h3 { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem; }
+  p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 0.75rem; }
+  p:last-child { margin-bottom: 0; }
+  /* Metrics */
+  .metric-grid { display: grid; gap: 10px; margin: 1rem 0; }
+  .metric-grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .metric-grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .metric-card { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 0.85rem 1rem; }
+  .metric-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500; }
+  .metric-val { font-size: 22px; font-weight: 600; color: var(--text-primary); }
+  .metric-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .metric-val-blue { color: var(--blue); }
+  .metric-val-teal { color: var(--teal); }
+  /* Sub-goal cards */
+  .sg-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+  .sg-card { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 10px 12px; }
+  .sg-card-blue { border-left: 3px solid var(--blue); }
+  .sg-card-teal { border-left: 3px solid var(--teal); }
+  .sg-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin: 6px 0 3px; }
+  .sg-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+  /* Team rows */
+  .team-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .team-row:last-child { border-bottom: none; }
+  .avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+  .av-blue { background: var(--blue-light); color: var(--blue-dark); }
+  .av-teal { background: var(--teal-light); color: var(--teal-dark); }
+  .team-name { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+  .team-role { font-size: 12px; color: var(--text-muted); }
+  /* Workstream bars */
+  .ws-bar { border-left: 3px solid var(--blue); padding: 8px 12px; background: var(--bg-secondary); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-bottom: 8px; }
+  .ws-bar-teal { border-left-color: var(--teal); }
+  .ws-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; }
+  .ws-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; }
+  /* Tension grid */
+  .tension-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin: 10px 0; }
+  .tension-cell { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 10px 12px; }
+  .tension-hdr { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 5px; }
+  .tension-body { font-size: 12px; color: var(--text-secondary); line-height: 1.55; }
+  /* List items */
+  .list-item { display: flex; gap: 8px; font-size: 13px; color: var(--text-secondary); margin-bottom: 7px; align-items: flex-start; line-height: 1.6; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); margin-top: 7px; flex-shrink: 0; }
+  .dot-teal { background: var(--teal); }
+  .dot-red { background: #E24B4A; }
+  /* Contributing */
+  .contrib-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); }
+  .contrib-row:last-child { border-bottom: none; }
+  .contrib-tag { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: var(--blue-light); color: var(--blue-dark); flex-shrink: 0; }
+  /* Quiz */
+  .quiz-wrap { margin-top: 1.25rem; }
+  .quiz-q { font-size: 14px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.75rem; line-height: 1.5; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 6px; }
+  .quiz-opt { font-size: 13px; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); background: var(--bg-primary); color: var(--text-primary); cursor: pointer; text-align: left; transition: all 0.15s; line-height: 1.5; width: 100%; }
+  .quiz-opt:hover:not(:disabled) { background: var(--bg-secondary); }
+  .quiz-opt.correct { background: var(--green-light); border-color: var(--green-dark); color: var(--green-dark); }
+  .quiz-opt.wrong { background: var(--red-light); border-color: var(--red-dark); color: var(--red-dark); }
+  .quiz-feedback { margin-top: 10px; font-size: 13px; padding: 10px 14px; border-radius: var(--radius-sm); line-height: 1.6; }
+  .fb-correct { background: var(--green-light); color: var(--green-dark); }
+  .fb-wrong { background: var(--red-light); color: var(--red-dark); }
+  /* Buttons */
+  .btn { font-size: 13px; padding: 8px 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-strong); background: var(--bg-primary); color: var(--text-primary); cursor: pointer; transition: all 0.15s; font-weight: 500; }
+  .btn:hover { background: var(--bg-secondary); }
+  .btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+  .btn-primary:hover { background: var(--blue-dark); }
+  /* Nav btns */
+  .nav-btns { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
+  /* Score */
+  .score-banner { background: var(--green-light); border: 1px solid var(--green-dark); border-radius: var(--radius); padding: 1.25rem 1.5rem; text-align: center; margin-bottom: 1rem; }
+  .score-banner h2 { color: var(--green-dark); }
+  .score-banner p { color: var(--green-dark); }
+  .big-score { font-size: 52px; font-weight: 700; color: var(--blue); margin-bottom: 4px; }
+  /* Final note */
+  .final-note { background: var(--blue-light); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-top: 1.25rem; }
+  .final-note p { color: var(--blue-dark); margin: 0; font-size: 13px; }
+  .final-note h3 { color: var(--blue-dark); margin-bottom: 6px; }
+  /* Tier pills */
+  .tier-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-top: 12px; }
+  .tier-pill { border-radius: var(--radius-sm); padding: 8px 10px; background: var(--bg-secondary); }
+  .tier-name { font-weight: 600; font-size: 13px; color: var(--text-primary); }
+  .tier-val { font-size: 15px; color: var(--text-secondary); }
+  .tier-sub { font-size: 11px; color: var(--text-muted); }
+  .tier-pill-teal { background: var(--teal-light); }
+  .tier-pill-teal .tier-name { color: var(--teal-dark); }
+  .tier-pill-teal .tier-val { color: var(--teal); font-size: 18px; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="header-label">FY26 · Intuit PDX</div>
+    <div class="header-title">TECH-LG-09: Unified UX Platform</div>
+    <div class="header-sub">New Leader Training Module · Done-for-you Experiences &amp; Better Together</div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="prog-label">Module 1 of 5</span>
+      <span id="prog-pct">20%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-bar" style="width:20%"></div></div>
+  </div>
+
+  <div class="nav" id="nav"></div>
+  <div id="content"></div>
+
+  <div class="nav-btns">
+    <button class="btn" id="btn-back" onclick="goPrev()">← Back</button>
+    <button class="btn btn-primary" id="btn-next" onclick="goNext()">Next module →</button>
+  </div>
+</div>
+
+<script>
+const sections = [
+  { id: 's1', label: 'Program overview' },
+  { id: 's2', label: 'Done-for-you' },
+  { id: 's3', label: 'Better together' },
+  { id: 's4', label: 'Teams & tensions' },
+  { id: 's5', label: 'Final quiz' },
+];
+
+const quizState = {};
+let current = 0;
+const done = {};
+
+function av(initials, style) {
+  return `<div class="avatar av-${style}">${initials}</div>`;
+}
+function teamRow(initials, name, role, avStyle) {
+  return `<div class="team-row">${av(initials, avStyle)}<div><div class="team-name">${name}</div><div class="team-role">${role}</div></div></div>`;
+}
+function wsBar(title, desc, teal = false) {
+  return `<div class="ws-bar${teal?' ws-bar-teal':''}"><div class="ws-title">${title}</div><div class="ws-desc">${desc}</div></div>`;
+}
+function listItem(text, color='blue') {
+  return `<div class="list-item"><div class="dot dot-${color}"></div>${text}</div>`;
+}
+
+function renderQuiz(id, question, options, correctIdx, explanation) {
+  if (!quizState[id]) quizState[id] = { answered: false, correct: false, chosen: -1 };
+  const state = quizState[id];
+  const optsHtml = options.map((o, i) => {
+    let cls = 'quiz-opt';
+    if (state.answered) {
+      if (i === correctIdx) cls += ' correct';
+      else if (i === state.chosen) cls += ' wrong';
+    }
+    const esc = explanation.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+    return `<button class="${cls}" onclick="answerQuiz('${id}',${i},${correctIdx},'${esc}',${options.length})" ${state.answered?'disabled':''}>${o}</button>`;
+  }).join('');
+  const fb = state.answered ? `<div class="quiz-feedback ${state.correct?'fb-correct':'fb-wrong'}">${state.correct?'✓ Correct. ':'✗ Not quite. '}${explanation}</div>` : '';
+  return `<div class="quiz-wrap"><div class="quiz-q">${question}</div><div class="quiz-opts" id="opts-${id}">${optsHtml}</div>${fb}</div>`;
+}
+
+function answerQuiz(id, chosen, correct, explanation, total) {
+  if (quizState[id] && quizState[id].answered) return;
+  quizState[id] = { answered: true, correct: chosen === correct, chosen };
+  renderCurrent();
+}
+
+const contentMap = {
+  s1: () => `
+    <div class="card card-blue">
+      <span class="badge badge-blue" style="margin-bottom:8px">FY26 program</span>
+      <h2>TECH-LG-09: Unified UX Platform</h2>
+      <p>The program's mission is to drive the UX transformation of Intuit's products to deliver done-for-you experiences at scale — through AI-powered automation and ecosystem integration across 500+ web apps, 16 mobile apps, and 25 GenAI experiences.</p>
+    </div>
+    <div class="card">
+      <h3>Four subgoals</h3>
+      <div class="sg-grid">
+        <div class="sg-card sg-card-blue"><span class="badge badge-blue">Subgoal 1 — your focus</span><div class="sg-title">Done-for-you Experiences</div><div class="sg-desc">GenUX platform, agentic patterns, Intuit Agent Chat</div></div>
+        <div class="sg-card sg-card-teal"><span class="badge badge-teal">Subgoal 3 — your focus</span><div class="sg-title">Better Together</div><div class="sg-desc">Unified Design System, IDS adoption, Runway</div></div>
+        <div class="sg-card"><div class="sg-title">High-performance Runtime</div><div class="sg-desc">Web & mobile performance, 95% good impressions</div></div>
+        <div class="sg-card"><div class="sg-title">2P/3P UI Integrations</div><div class="sg-desc">Third-party & acquired app integrations (0→5)</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Contributing to</h3>
+      <div style="margin-top:10px">
+        <div class="contrib-row"><span class="contrib-tag">DFY-EE-IG01</span>AI Agent Development Foundation</div>
+        <div class="contrib-row"><span class="contrib-tag">TECH-LG-01</span>Operational Excellence — Web Performance, Mobile Performance, Progressive Delivery</div>
+        <div class="contrib-row"><span class="contrib-tag">DFY-EE-IG03</span>E2E Dev Experience and Tools — front end user experiences</div>
+      </div>
+    </div>
+    <div class="card" style="background:var(--bg-secondary)">
+      <div style="font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.05em">Cross-cutting success metrics (all subgoals)</div>
+      <div class="metric-grid metric-grid-3">
+        <div class="metric-card"><div class="metric-label">CES score — Web</div><div class="metric-val metric-val-blue">90%</div><div class="metric-sub">Target &gt;80% ✓</div></div>
+        <div class="metric-card"><div class="metric-label">CES score — Mobile</div><div class="metric-val">75%</div><div class="metric-sub">Target &gt;80% — gap</div></div>
+        <div class="metric-card"><div class="metric-label">Dev efficiency</div><div class="metric-val metric-val-blue">34%</div><div class="metric-sub">Target 30% ✓</div></div>
+      </div>
+    </div>
+    ${renderQuiz('q_prog','What is the primary mission of TECH-LG-09?',
+      ['Reduce mobile app load times by 20%','Drive UX transformation to deliver done-for-you experiences at scale','Consolidate all Intuit apps into a single codebase','Build a new design token library'],
+      1,'TECH-LG-09\'s stated mission is to drive the UX transformation of Intuit\'s products to deliver done-for-you experiences at scale, through AI-powered automation and ecosystem integration.'
+    )}
+  `,
+
+  s2: () => `
+    <div class="card card-blue">
+      <span class="badge badge-blue" style="margin-bottom:8px">Subgoal 1</span>
+      <h2>Done-for-you Experiences</h2>
+      <p>Develop common widgets, dynamic UX composition, Agentic UX patterns, components, paved roads, and design standards that make agent experiences interoperable and cohesive across Intuit.</p>
+    </div>
+    <div class="card">
+      <h3>FY26 metrics — where things stand</h3>
+      <div class="metric-grid metric-grid-2">
+        <div class="metric-card"><div class="metric-label">GenUX experiences (target: 22 net new)</div><div class="metric-val metric-val-blue">44</div><div class="metric-sub">Target exceeded ✓</div></div>
+        <div class="metric-card"><div class="metric-label">Dev time saved</div><div class="metric-val metric-val-blue">34%</div><div class="metric-sub">vs 30% target ✓</div></div>
+        <div class="metric-card"><div class="metric-label">Explanations Agent users</div><div class="metric-val">1.68M</div><div class="metric-sub">3.4M sessions</div></div>
+        <div class="metric-card"><div class="metric-label">CES score (dev flows)</div><div class="metric-val">—</div><div class="metric-sub">Collecting (low volume)</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Three delivery areas</h3>
+      <div style="margin-top:10px">
+        ${wsBar('Intuit Agent Chat (experiences)','Multi-thread, file upload, cloud connectors, streaming states, web/iOS/Android feature parity. VEP + Omni migrations in Q3.')}
+        ${wsBar('Foundation','Rolling summarization (2-yr retention), Clickstream + OOB analytics, Pre-Auth → Post-Auth handoff, WebSocket streaming.')}
+        ${wsBar('Developer experience','Python DSL content builder, Player runtime tracing & debugging, new playground with examples and step-by-step guides.')}
+      </div>
+    </div>
+    <div class="card card-warn">
+      <div style="font-size:12px;font-weight:600;color:#A32D2D;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">Open risks to address</div>
+      ${listItem('Dev efficiency and CES baseline not yet established (owners: Srini, David)','red')}
+      ${listItem('ITAD memory architecture decision pending (owners: Jason, Muzaffar, Daniel)','red')}
+      ${listItem('Legal/Security/Privacy process for platform capabilities less defined than RAI — causing churn','red')}
+      ${listItem('VEP mobile migration ownership unresolved (owners: Ruppi, Christine)','red')}
+    </div>
+    ${renderQuiz('q_dfy','Which agent chat capability was launched most recently and is now in production?',
+      ['Multi-thread with responsive panel','Voice-activated agent responses','Batch file processing for enterprise users','Customer escalation routing'],
+      0,'Intuit Agent Chat launched in production with multi-thread and responsive panel, along with streaming states, stop agent, feedback, doc upload, and mobile (iOS/Android) support.'
+    )}
+    ${renderQuiz('q_dfy2','What is the Q3 priority for Done-for-you Experiences regarding QB?',
+      ['Build a brand new QB chatbot from scratch','Support Omni agent migration to GenUX','Deprecate the existing QB plugin system','Launch QB on mobile web only'],
+      1,'Q3 scope includes supporting the QB Omni agent migration to GenUX — the platform was ready after the February (Venus) release.'
+    )}
+  `,
+
+  s3: () => `
+    <div class="card card-teal">
+      <span class="badge badge-teal" style="margin-bottom:8px">Subgoal 3</span>
+      <h2>Better Together Ecosystem-wide Experiences</h2>
+      <p>Deliver a unified Design System with codified components and AI-ready tools and infrastructure for Fusion, IES, and other offerings. Enable theming, promote design/code reuse, and drive cross-product visual consistency.</p>
+    </div>
+    <div class="card">
+      <h3>FY26 metrics — where things stand</h3>
+      <div class="metric-grid metric-grid-3">
+        <div class="metric-card"><div class="metric-label">IDS experiences (Tier 2+)</div><div class="metric-val metric-val-teal">483</div><div class="metric-sub">Target: 500 (96.6%)</div></div>
+        <div class="metric-card"><div class="metric-label">Plugin migration time</div><div class="metric-val metric-val-teal">1-2 hrs</div><div class="metric-sub">Was 3-5 days</div></div>
+        <div class="metric-card"><div class="metric-label">CES score</div><div class="metric-val">76%</div><div class="metric-sub">Target &gt;80% — gap</div></div>
+      </div>
+      <div class="tier-grid">
+        <div class="tier-pill"><div class="tier-name">Tier 2</div><div class="tier-val">222</div><div class="tier-sub">Token-compliant</div></div>
+        <div class="tier-pill"><div class="tier-name">Tier 3</div><div class="tier-val">261</div><div class="tier-sub">Component-compliant</div></div>
+        <div class="tier-pill tier-pill-teal"><div class="tier-name">Total</div><div class="tier-val">483</div><div class="tier-sub">of 500 target</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Key workstreams</h3>
+      <div style="margin-top:10px">
+        ${wsBar('IDS tiered adoption (web)','Migrate QB plugins → IDS; AI-powered migration (300 PRs/week demonstrated). IDS Adoption Dashboard launched Q3.',true)}
+        ${wsBar('Mobile theming','DDMS3 token migration across TTM (US + Canada), QBM (end of March), CK (complete). Android & iOS.',true)}
+        ${wsBar('Runway — GBSG visual refresh','Experimental library live; 30+ components updated. Incremental rollout: UK/Canada → GA July (IAS/IES/QBO).',true)}
+        ${wsBar('AI-powered dev productivity (3x goal)','New IDS skills + MCP for Cursor and Claude Code. Token Guidance API for LLM workflows. Stylelint in CI/CD.',true)}
+        ${wsBar('One Intuit brand x-product','Partnering with Brand on AI/HI color palette, typeface, iconography. 32 icons for CDS system refresh prototype.',true)}
+      </div>
+    </div>
+    ${renderQuiz('q_bt','What is the FY26 success target for Better Together?',
+      ['300 product experiences on IDS','500 product experiences on IDS with Tier 2+ Maturity','100% of mobile apps migrated to DDMS3','Launch Runway across all Intuit BUs'],
+      1,'The success measure is 500 product experiences on IDS with Tier 2+ Maturity. Current progress is 483 (96.6% of goal).'
+    )}
+    ${renderQuiz('q_bt2','What three-tier maturity model does IDS use for tracking adoption?',
+      ['Prototype → Beta → GA','Tier 1 (Visual Assets) → Tier 2 (Tokens) → Tier 3 (Components)','Design → Build → Ship','Foundations → Patterns → Templates'],
+      1,'IDS uses a tiered adoption model: Tier 1 = Visual Assets compliant, Tier 2 = Token-compliant, Tier 3 = Component-compliant. The FY26 goal tracks Tier 2+ maturity.'
+    )}
+  `,
+
+  s4: () => `
+    <div class="card card-blue">
+      <h2>Teams & strategic tensions</h2>
+      <p>Your two subgoal teams and the tensions that will require your leadership attention.</p>
+    </div>
+    <div class="card">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div>
+          <span class="badge badge-blue" style="margin-bottom:10px;display:inline-block">Subgoal 1 team</span>
+          ${teamRow('Ru','Ruppi','Driver / Eng Lead','blue')}
+          ${teamRow('Br','Brian','PD','blue')}
+          ${teamRow('Da','David','PM','blue')}
+          ${teamRow('La','Lakshmi','TPM','blue')}
+          ${teamRow('Wa','Wallace','Design','blue')}
+        </div>
+        <div>
+          <span class="badge badge-teal" style="margin-bottom:10px;display:inline-block">Subgoal 3 team</span>
+          ${teamRow('Sa','Sam','Driver / Eng Lead','teal')}
+          ${teamRow('Ke','Kelvin','PD','teal')}
+          ${teamRow('Ay','Ayush','PM','teal')}
+          ${teamRow('JA','Jordan / Amrita','TPM','teal')}
+          ${teamRow('An','Andrea','Design','teal')}
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Three strategic tensions in IDS (Subgoal 3)</h3>
+      <p style="font-size:13px;margin-bottom:10px">These are active tensions — not resolved. They will need your leadership attention.</p>
+      <div class="tension-grid">
+        <div class="tension-cell"><div class="tension-hdr">Decision rights</div><div class="tension-body">Platform lacks authority to enforce standards. BUs own creative direction — but this leads to fragmentation with unsupported Figma libraries.</div></div>
+        <div class="tension-cell"><div class="tension-hdr">Stretched capacity</div><div class="tension-body">Many-to-one dependency on IDS PD as BUs reduce their own design system investment. Design vs. implementation drift follows.</div></div>
+        <div class="tension-cell"><div class="tension-hdr">Component branches</div><div class="tension-body">Four parallel branches (IDS-Web, Runway canary, IDS-Core, GenUX-DS) with no clear consolidation plan yet. Runway pilot in flight.</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Help needed from you</h3>
+      <div style="margin-top:8px">
+        ${listItem('Lock FY27 priorities: align BU XD/PD/PM on outcomes with TPM-backed plans','teal')}
+        ${listItem('Harden BU dependency intake: single intake + tradeoff governance (especially post-planning asks)','teal')}
+        ${listItem('Balance resourcing: symmetrical investment across BU resources and PDX','teal')}
+        ${listItem('Establish CES + dev efficiency baselines for Subgoal 1 (Srini, David)','')}
+        ${listItem('Drive ITAD memory architecture decision with Jason, Muzaffar, Daniel','')}
+      </div>
+    </div>
+    ${renderQuiz('q_team','Which team member is the PM for the Better Together / IDS subgoal?',
+      ['David','Lakshmi','Ayush','Brian'],
+      2,'Ayush is the PM for Subgoal 3 (Better Together). David is the PM for Subgoal 1 (Done-for-you Experiences).'
+    )}
+    ${renderQuiz('q_tension','How many IDS component branches are currently maintained in parallel?',
+      ['Two (main + canary)','Three','Four','Five'],
+      2,'There are four parallel branches: IDS-Web (baseline), IDS-Web/Runway (canary), IDS-Core (unshipped unified), and GenUX-DS (tailored for Intuit Assist). Consolidation is in flight.'
+    )}
+  `,
+
+  s5: () => {
+    const questions = [
+      { id:'fq1', q:'TECH-LG-09 contributes directly to which two company-level programs?', opts:['DFY-EE-IG01 and TECH-LG-01','TECH-LG-03 and TECH-LG-05','DFY-EE-IG01 and TECH-LG-09','TECH-LG-01 and TECH-LG-03'], correct:0, exp:'LG-09 contributes to DFY-EE-IG01 (AI Agent Development Foundation) and TECH-LG-01 (Operational Excellence).' },
+      { id:'fq2', q:'What is the most recent count of agentic/AI experiences enabled by the GenUX platform?', opts:['7 new experiences','22 new experiences','34 new experiences in FY26 (44 total)','8 experiences'], correct:2, exp:'As of the most recent review, 34 new experiences were launched in FY26, exceeding the 22 net-new target.' },
+      { id:'fq3', q:'What does the Runway project refer to in the IDS context?', opts:['A performance monitoring dashboard','The GBSG visual refresh — a canary branch update to IDS with new specs','A new mobile runtime framework','The AI code assistant for IDS migration'], correct:1, exp:'Runway is the GBSG-driven visual refresh. IDS is supporting it with an experimental library and 30+ components in a canary branch, with GA rollout planned for July.' },
+      { id:'fq4', q:'Which risk is currently blocking baseline measurement for Done-for-you Experiences?', opts:['Budget has not been approved','Dev efficiency and CES score baseline are not yet established','The team lacks a TPM','GenUX platform is not in production'], correct:1, exp:'The dev efficiency and CES score baselines have not been established. Owners Srini and David have a path forward but it needs time to set up and calculate.' },
+      { id:'fq5', q:"What is the platform's winning adoption strategy according to program learnings?", opts:['Mandatory migration enforced by ITAD','Benchmarking against industry leaders (e.g. ChatGPT) + customer obsession with product team needs + executive sponsorship','Reducing the number of design system components','Publishing more developer documentation'], correct:1, exp:"Program learnings consistently note that benchmarking against ChatGPT and other leaders, combined with customer obsession with key BU teams like QB Omni and PDX/Tech Executive sponsorship, has been the winning formula for platform adoption." },
+    ];
+    const total = questions.length;
+    const answered = questions.filter(q => quizState[q.id] && quizState[q.id].answered).length;
+    const correct = questions.filter(q => quizState[q.id] && quizState[q.id].correct).length;
+    let scoreHtml = '';
+    if (answered === total) {
+      const pct = Math.round((correct / total) * 100);
+      const msg = pct === 100 ? 'Perfect score!' : pct >= 80 ? 'Strong result!' : pct >= 60 ? 'Good effort — review what you missed.' : 'Keep reviewing the earlier modules.';
+      scoreHtml = `<div class="score-banner"><div class="big-score">${pct}%</div><h2>${msg}</h2><p>${correct} of ${total} correct</p></div>`;
+    }
+    return `
+      <div class="card card-blue">
+        <span class="badge badge-amber" style="margin-bottom:8px">Final quiz</span>
+        <h2>Test your knowledge</h2>
+        <p>Five questions covering both subgoals. You can navigate back to any section to review.</p>
+        ${answered < total ? `<div style="font-size:13px;color:var(--text-muted)">${answered} of ${total} answered</div>` : ''}
+      </div>
+      ${scoreHtml}
+      ${questions.map(q => `<div class="card">${renderQuiz(q.id,q.q,q.opts,q.correct,q.exp)}</div>`).join('')}
+      ${answered === total ? `<div class="final-note"><h3>What's next?</h3><p>Review the onboarding document for deeper context on each area. Your first week priorities: meet both teams, review the latest Deep Dive (Jan 28, 2026), shadow the next monthly program review, and dig into the open RAID items.</p></div>` : ''}
+    `;
+  }
+};
+
+function renderNav() {
+  document.getElementById('nav').innerHTML = sections.map((s, i) => {
+    let cls = 'nav-btn';
+    if (i === current) cls += ' active';
+    else if (done[i]) cls += ' done';
+    return `<button class="${cls}" onclick="goTo(${i})">${s.label}</button>`;
+  }).join('');
+}
+
+function renderCurrent() {
+  document.getElementById('content').innerHTML = contentMap[sections[current].id]();
+  const pct = Math.round(((current + 1) / sections.length) * 100);
+  document.getElementById('prog-label').textContent = `Module ${current + 1} of ${sections.length}`;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-bar').style.width = pct + '%';
+  document.getElementById('btn-back').disabled = current === 0;
+  document.getElementById('btn-next').textContent = current === sections.length - 1 ? 'Finish' : 'Next module →';
+  renderNav();
+  window.scrollTo(0, 0);
+}
+
+function goTo(idx) {
+  done[current] = true;
+  current = idx;
+  renderCurrent();
+}
+function goNext() {
+  if (current < sections.length - 1) goTo(current + 1);
+}
+function goPrev() {
+  if (current > 0) goTo(current - 1);
+}
+
+renderCurrent();
+</script>
+</body>
+</html>
